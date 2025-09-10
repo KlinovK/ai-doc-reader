@@ -6,7 +6,6 @@
 //
 
 import VisionKit
-import PDFKit
 import SwiftUI
 
 struct DocumentScannerView: UIViewControllerRepresentable {

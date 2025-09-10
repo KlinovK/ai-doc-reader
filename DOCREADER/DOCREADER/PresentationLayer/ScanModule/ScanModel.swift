@@ -20,17 +20,4 @@ class ScanModel {
             print("Failed to save document: \(error)")
         }
     }
-
-    func createAndSaveThumbnail(name: String, image: UIImage, context: ModelContext) {
-        let thumbnailSize = CGSize(width: 200, height: 200)
-        let renderer = UIGraphicsImageRenderer(size: thumbnailSize)
-        let thumbnail = renderer.image { _ in
-            image.draw(in: CGRect(origin: .zero, size: thumbnailSize))
-        }
-        guard let thumbnailData = thumbnail.jpegData(compressionQuality: 0.5) else {
-            print("Failed to convert thumbnail to JPEG data")
-            return
-        }
-        saveDocument(name: name.replacingOccurrences(of: ".pdf", with: "_thumbnail.jpg"), data: thumbnailData, context: context)
-    }
 }

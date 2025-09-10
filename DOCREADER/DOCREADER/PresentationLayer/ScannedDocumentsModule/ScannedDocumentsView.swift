@@ -6,7 +6,6 @@
 //
 
 import SwiftUI
-import PDFKit
 
 struct ScannedDocumentsView: View {
     @State private var documents: [Document] = []
@@ -16,7 +15,6 @@ struct ScannedDocumentsView: View {
     
     var body: some View {
         NavigationStack {
-            
             List {
                 if documents.isEmpty {
                     Text("No documents found")
@@ -46,10 +44,19 @@ struct ScannedDocumentsView: View {
                     }
                 }
             }
-           
             .navigationTitle("Scanned Documents")
             .sheet(item: $selectedDocument) { document in
-                PDFViewer(data: document.data)
+                if let image = UIImage(data: document.data) {
+                    Image(uiImage: image)
+                        .resizable()
+                        .scaledToFit()
+                        .frame(maxWidth: .infinity, maxHeight: .infinity)
+                        .background(Color.black)
+                        .ignoresSafeArea()
+                } else {
+                    Text("Unable to load image")
+                        .foregroundColor(.red)
+                }
             }
             .onAppear {
                 documents = presenter.fetchDocuments(context: modelContext)
